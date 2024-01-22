@@ -1,0 +1,43 @@
+#!/usr/bin/python3
+
+"""This module contains function that opens a file and factorize as many numbers
+as possible it can find in that file into a product of 2 smaller nums"""
+
+from sys import argv
+from math import sqrt
+
+
+def factorizer(num):
+    """gets the factors of a number
+
+        Args:
+            num: The number to factorize
+    """
+    if num % 2 == 0:
+        print("{}={}*{}".format(num, int(num//2), 2))
+    else:
+        sq = int(sqrt(num)) + 1
+        for i in range(3, sq, 2):
+            if num % i == 0:
+                print("{}={}*{}".format(num, int(num//i), i))
+                return
+            if num % (sq + i) == 0:
+                print("{}={}*{}".format(num, sq + i, int(num//(sq + i))))
+                return
+        print("{}={}*{}".format(num, num, 1))
+        return
+
+def open_file(filename):
+    """This function reads each line of a file and splits it in an array
+    so it can be used by the factorizer function to get the factors
+
+    Args:
+        The file name to read from
+    """
+
+    with open(filename, encoding="utf-8") as f:
+        for line in f.readlines():
+            result = factorizer(int(line))
+
+if __name__ == "__main__":
+    open_file(argv[1])
